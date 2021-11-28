@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Cenas/00.unity
+    path: Assets/Cenas/MCC.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Cenas/NCC.unity
+    guid: fa55883688a4e6145a31f4cb9503f3d4
   m_configObjects: {}

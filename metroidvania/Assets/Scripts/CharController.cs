@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class CharController : MonoBehaviour
 {
@@ -18,10 +20,18 @@ public class CharController : MonoBehaviour
 	// A position marking where to check if the player is grounded.
 	[SerializeField] private Transform m_GroundCheck;
 
+	// Mesma coisa do GroundCheck, mas pra subir paredes.
+	[SerializeField] private Transform[] m_ParedeCheck;
+
+	[SerializeField] public bool isParedavel;
+
 	// Radius of the overlap circle to determine if grounded
 	const float k_GroundedRadius = .2f;
 	// Whether or not the player is grounded.
-	private bool m_Grounded;            
+	private bool m_Grounded;
+
+	private bool m_Paredado;
+
 	private Rigidbody2D m_Rigidbody2D;
 	// For determining which way the player is currently facing.
 	private bool m_FacingRight = true;
@@ -42,11 +52,16 @@ public class CharController : MonoBehaviour
 		if (OnLandEvent == null)
 			OnLandEvent = new UnityEvent();
 
+		DontDestroyOnLoad(this.gameObject);
+
+		SceneManager.LoadScene("MCC");
+
 	}
 
 	private void FixedUpdate()
 	{
 		bool wasGrounded = m_Grounded;
+
 		m_Grounded = false;
 
 		// The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
@@ -61,13 +76,36 @@ public class CharController : MonoBehaviour
 					OnLandEvent.Invoke();
 			}
 		}
-	}
 
+		if (isParedavel) {
+			bool wasParedado = m_Paredado;
+
+			m_Paredado = false;
+
+			List<Collider2D> polliders = new List<Collider2D> (
+				Physics2D.OverlapCircleAll(m_ParedeCheck[0].position, k_GroundedRadius, m_WhatIsGround)
+			);
+			polliders.AddRange(
+				Physics2D.OverlapCircleAll(m_ParedeCheck[1].position, k_GroundedRadius, m_WhatIsGround)
+			);
+
+			for (int i = 0; i < polliders.Count; i++)
+			{
+				if (polliders[i].gameObject != gameObject)
+				{
+					m_Paredado = true;
+					if (!wasParedado)
+						OnLandEvent.Invoke();
+				}
+			}
+		}
+
+	}
 
 	public void Move(float move, bool jump)
 	{
 		//only control the player if grounded or airControl is turned on
-		if (m_Grounded || m_AirControl)
+		if (m_Grounded || m_Paredado || m_AirControl)
 		{
 			// Move the character by finding the target velocity
 			Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody2D.velocity.y);
@@ -94,6 +132,15 @@ public class CharController : MonoBehaviour
 			m_Grounded = false;
 			m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
 		}
+		// Se o player tiver grudado numa parede
+		else if (m_Paredado && jump) {
+			m_Paredado = false;
+			m_Rigidbody2D.AddForce(
+				new Vector2((move >= 0) ? -(m_JumpForce*4) : (m_JumpForce*4) , m_JumpForce)
+			);
+			Debug.Log(-move);
+		}
+
 	}
 
 
