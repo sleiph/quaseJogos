@@ -125,6 +125,7 @@ public class CharController : MonoBehaviour
 				Flip();
 			}
 		}
+
 		// If the player should jump...
 		if (m_Grounded && jump)
 		{
@@ -135,10 +136,10 @@ public class CharController : MonoBehaviour
 		// Se o player tiver grudado numa parede
 		else if (m_Paredado && jump) {
 			m_Paredado = false;
+			// Adiciona força pra cima e pro lado contrário
 			m_Rigidbody2D.AddForce(
 				new Vector2((move >= 0) ? -(m_JumpForce*4) : (m_JumpForce*4) , m_JumpForce)
 			);
-			Debug.Log(-move);
 		}
 
 	}
