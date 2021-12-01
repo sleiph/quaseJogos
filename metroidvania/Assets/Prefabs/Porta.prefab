@@ -176,7 +176,7 @@ GameObject:
   - component: {fileID: 7625295221050488537}
   - component: {fileID: 5015137478907559007}
   m_Layer: 0
-  m_Name: PortaD---
+  m_Name: Porta
   m_TagString: Porta
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

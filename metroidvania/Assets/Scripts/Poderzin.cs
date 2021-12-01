@@ -11,10 +11,9 @@ public class Poderzin : MonoBehaviour
             if (isParedabilidade) {
                 Paredabilizar(outro);
             }
-        }
 
-        Destroy(gameObject);
-        
+            Destroy(gameObject);
+        }
     }
 
     void Paredabilizar(Collider2D coll) {
