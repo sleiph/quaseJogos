@@ -1,31 +1,39 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Poderzin : MonoBehaviour
 {
-    [SerializeField] private bool isParedabilidade;
+    [SerializeField] public string tipo;
 
     void OnTriggerEnter2D(Collider2D outro) {
         if (outro.tag == "Player") {
-            if (isParedabilidade) {
-                Paredabilizar(outro);
-            }
+            Tipar(outro);
 
             Destroy(gameObject);
         }
     }
 
-    void Paredabilizar(Collider2D coll) {
+    void Tipar(Collider2D prota) {
+        if (tipo == "paredabilidade") {
+            Paredabilizar(prota);
+        }
+        else if (tipo == "escudo") {
+            Escudar(prota);
+        }
+    }
+
+    void Paredabilizar(Collider2D prota) {
         PhysicsMaterial2D Paredavel = new PhysicsMaterial2D();
         Paredavel.friction = 1f;
         Paredavel.name = "Paredavel";
         
-        coll.gameObject.GetComponent<BoxCollider2D>().sharedMaterial = Paredavel;
-        coll.gameObject.GetComponent<CircleCollider2D>().sharedMaterial = Paredavel;
+        prota.sharedMaterial = Paredavel;
 
-        GameObject jogador = coll.gameObject;
-        jogador.GetComponent<CharController>().isParedavel = true;
+        GameObject jogador = prota.gameObject;
+        jogador.GetComponent<CharController>().poderzinhos.Add("paredabilidade");
+    }
+
+    void Escudar(Collider2D prota) {
+        Debug.Log("yay, escudo");
     }
 
 }

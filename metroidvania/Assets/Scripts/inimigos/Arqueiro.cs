@@ -18,7 +18,6 @@ public class Arqueiro : MonoBehaviour
         flecha.GetComponent<Flecha>().EscolherDirecao(
             direcao
         );
-        Debug.Log(spawn);
     }
 
     void OnTriggerEnter2D(Collider2D outro) {

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -23,7 +24,7 @@ public class CharController : MonoBehaviour
 	// Mesma coisa do GroundCheck, mas pra subir paredes.
 	[SerializeField] private Transform[] m_ParedeCheck;
 
-	[SerializeField] public bool isParedavel;
+	[SerializeField] public List<string> poderzinhos;
 
 	// Radius of the overlap circle to determine if grounded
 	const float k_GroundedRadius = .2f;
@@ -77,7 +78,7 @@ public class CharController : MonoBehaviour
 			}
 		}
 
-		if (isParedavel) {
+		if ( ChecarPoderes("paredabilidade") ) {
 			bool wasParedado = m_Paredado;
 
 			m_Paredado = false;
@@ -155,4 +156,10 @@ public class CharController : MonoBehaviour
 		theScale.x *= -1;
 		transform.localScale = theScale;
 	}
+
+	public bool ChecarPoderes(string check) {
+    return (poderzinhos.FirstOrDefault(
+      poder => poder == check) != null
+    );
+  }
 }
