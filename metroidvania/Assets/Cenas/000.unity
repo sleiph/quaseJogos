@@ -504,7 +504,7 @@ MonoBehaviour:
   m_ParedeCheck:
   - {fileID: 324247853}
   - {fileID: 1690673594}
-  isParedavel: 0
+  poderzinhos: []
   OnLandEvent:
     m_PersistentCalls:
       m_Calls: []

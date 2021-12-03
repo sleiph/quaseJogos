@@ -140,7 +140,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7393355259948487446}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2108d46ed6f23f547bb3238626fa4102, type: 3}
+  m_Script: {fileID: 11500000, guid: e4523adccd187cd468f15f2050a57211, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isParedabilidade: 0
+  tipo: paredabilidade
